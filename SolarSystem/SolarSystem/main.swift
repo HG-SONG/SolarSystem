@@ -15,7 +15,7 @@ struct SolarSystem {
         let number = inputCircleSize()
         print(drawCircle(num:number))
     }
-    
+
     func step2Run() {
         var S = CelestialBody(diameter: 6)
         var E = CelestialBody(diameter: 4)
@@ -26,14 +26,14 @@ struct SolarSystem {
         E.shape = generate2DArray(str: drawCircle(num: E.size))
         M.shape = generate2DArray(str: drawCircle(num: M.size))
         
-        let arrayMD = stringToIntMD(data: inputMD())
+        
+        let arrayMD = stringToIntYMD(data: inputYMD())
         let moonAngle = angleByDate(date: arrayMD[1])
         let earthAngle = angleByMonth(month: arrayMD[0])
         let earthPlane = generateEarthPlane(back: backPlaneEarth, earth: E.shape, moon: M.shape, angle: moonAngle)
         let sunPlane = generateSunPlane(back: backPlaneSolarSystem, sun: S.shape, EPlane: earthPlane, angle: earthAngle)
         
         printPlane(plane: sunPlane, width: 76)
-        
     }
     
     func inputCircleSize() -> Int{
@@ -157,6 +157,13 @@ struct SolarSystem {
         return MD
     }
     
+    func inputYMD() -> String {
+        print("날짜를 입력하세요. 예 : 2022년 1월 1일 ")
+        print("! 주의 : 한번에 정확하게 입력해야함. 오타 정정시 재실행 요망 ")
+        guard let MD = readLine() else { return self.inputYMD() }
+        return MD
+    }
+    
     func stringToIntMD( data : String ) -> [Int] {
         var arr1 : [String] = data.components(separatedBy: " ")
         let arr2 : [String] = arr1[0].components(separatedBy: "ㅇㅜㅓㄹ")
@@ -167,9 +174,15 @@ struct SolarSystem {
         return resultArray
     }
     
+    func stringToIntYMD( data : String ) -> [Int] {
+        let arr1 : [String] = data.components(separatedBy: "ㄴㅕㄴ ")
+        let resultArray = stringToIntMD(data: arr1[1])
+        return resultArray
+    }
+    
     func angleByDate ( date : Int) -> [Int] {
         switch date {
-        case 1,2,3 : return [9,13] ; case 4,5 : return [11,12] ; case 6,7,8 : return [13,10]
+        case 1,2,3 : return [9,15] ; case 4,5 : return [11,12] ; case 6,7,8 : return [13,10]
         case 9,10,11 : return [15,9] ; case 12,13 : return [13,7]
         case 14,15,16 : return [11,5] ; case 17,18 : return [9,3]
         case 19,20,21 : return [7,5] ; case 22,23 : return [5,7]
@@ -183,10 +196,10 @@ struct SolarSystem {
     
     func angleByMonth ( month : Int) -> [Int] {
         switch month {
-        case 1 : return [35,56] ; case 2 : return [41,49] ; case 3 : return [49,41]
-        case 4 : return [56,35] ; case 5 : return [49,23] ; case 6 : return [41,12]
-        case 7 : return [35,0] ; case 8 : return [23,12] ; case 9 : return [12,23]
-        case 10 : return [0,35] ; case 11 : return [12,42] ; case 12 : return [12,42]
+        case 1 : return [28,56] ; case 2 : return [37,49] ; case 3 : return [47,37]
+        case 4 : return [56,28] ; case 5 : return [47,19] ; case 6 : return [37,9]
+        case 7 : return [28,0] ; case 8 : return [19,9] ; case 9 : return [9,19]
+        case 10 : return [0,28] ; case 11 : return [9,37] ; case 12 : return [19,47]
         default:
             break
         }
@@ -250,5 +263,6 @@ struct SolarSystem {
 
 let test = SolarSystem()
 //test.step1Run()
+
 test.step2Run()
 
