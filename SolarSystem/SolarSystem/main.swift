@@ -27,7 +27,9 @@ struct SolarSystem {
         M.shape = generate2DArray(str: drawCircle(num: M.size))
         
         let moonAngle = angleByDate(date: stringToIntMD(data: inputMD())[1])
-        printPlane(plane: generateEarthPlane(back: backPlaneEarth, earth: E.shape, moon: M.shape, angle: moonAngle), width: 20)
+        let earthPlane = generateEarthPlane(back: backPlaneEarth, earth: E.shape, moon: M.shape, angle: moonAngle)
+        
+        printPlane(plane: earthPlane, width: 20)
         
     }
     
