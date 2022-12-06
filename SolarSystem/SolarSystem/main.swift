@@ -208,9 +208,15 @@ struct SolarSystem {
     
     func backPlane ( width : Int) -> String {
         var str : String = ""
+        let specialCharacters = "✧ *̣̩ ☽ ⋆ ✿ . * ･ . · ´ ¸ . · * ´ ¨ ) ¸ . · * ¨ ) "
+        var specialCharactersArray : [String] = specialCharacters.components(separatedBy: " ")
+        for _ in 0...399{
+            specialCharactersArray.append(" ")
+        }
+
         for _ in 1...width {
             for _ in 1...width{
-                str += " "
+                str += specialCharactersArray[Int.random(in: 0 ... 423)]
             }
                 str += "\n"
         }
