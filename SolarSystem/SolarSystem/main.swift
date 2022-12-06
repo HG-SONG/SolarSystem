@@ -26,10 +26,13 @@ struct SolarSystem {
         E.shape = generate2DArray(str: drawCircle(num: E.size))
         M.shape = generate2DArray(str: drawCircle(num: M.size))
         
-        let moonAngle = angleByDate(date: stringToIntMD(data: inputMD())[1])
+        let arrayMD = stringToIntMD(data: inputMD())
+        let moonAngle = angleByDate(date: arrayMD[1])
+        let earthAngle = angleByMonth(month: arrayMD[0])
         let earthPlane = generateEarthPlane(back: backPlaneEarth, earth: E.shape, moon: M.shape, angle: moonAngle)
+        let sunPlane = generateSunPlane(back: backPlaneSolarSystem, sun: S.shape, EPlane: earthPlane, angle: earthAngle)
         
-        printPlane(plane: earthPlane, width: 20)
+        printPlane(plane: sunPlane, width: 76)
         
     }
     
@@ -178,6 +181,18 @@ struct SolarSystem {
         return [0,0]
     }
     
+    func angleByMonth ( month : Int) -> [Int] {
+        switch month {
+        case 1 : return [35,56] ; case 2 : return [41,49] ; case 3 : return [49,41]
+        case 4 : return [56,35] ; case 5 : return [49,23] ; case 6 : return [41,12]
+        case 7 : return [35,0] ; case 8 : return [23,12] ; case 9 : return [12,23]
+        case 10 : return [0,35] ; case 11 : return [12,42] ; case 12 : return [12,42]
+        default:
+            break
+        }
+        return [0,0]
+    }
+    
     func backPlane ( width : Int) -> String {
         var str : String = ""
         for _ in 1...width {
@@ -203,13 +218,26 @@ struct SolarSystem {
                 earthPlane[angle[0]+i][angle[1]+j] = moon[i][j]
             }
         }
-        
-        
         return earthPlane
     }
     
+    func generateSunPlane (back : [[String]], sun : [[String]], EPlane: [[String]], angle : [Int]) -> [[String]] {
+        var sunPlane : [[String]] = back
+        
+        for i in 0...5 {
+            for j in 0...5{
+                sunPlane[35+i][35+j] = sun[i][j]
+            }
+        }
+        for i in 0...19 {
+            for j in 0...19{
+                sunPlane[angle[0]+i][angle[1]+j] = EPlane[i][j]
+            }
+        }
+        return sunPlane
+    }
+    
     func printPlane (plane : [[String]] , width : Int) {
-        var cnt = 0
         for i in 0 ..< width{
             for j in 0 ..< width {
                 print(plane[i][j],terminator: "")
@@ -221,5 +249,6 @@ struct SolarSystem {
 
 
 let test = SolarSystem()
-test.step2Run()
 //test.step1Run()
+test.step2Run()
+
