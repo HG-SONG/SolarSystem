@@ -1,8 +1,7 @@
 import Foundation
 
-class Circle {
-    
-    func run() {
+struct SolarSystem {
+    func step1Run() {
         let number = inputCircleSize()
         print(drawCircle(num:number))
     }
@@ -13,10 +12,10 @@ class Circle {
         return number
     }
     
-    func drawCircle( num : Int) -> String{
+    func drawCircle( num : Int) -> String {
         let size = num
         var str : String = ""
-
+        
         for i in 0 ..< size / 2 {
             for j in 0 ..< size/2 - i  {
                 if size % 2 == 0 && j == 0{
@@ -104,9 +103,49 @@ class Circle {
         }
     return str
     }
+    
+    func generate2DArray (str : String) -> [[String]] {
+        let array1D : [String] = str.map{String($0)}
+        var array2D : [[String]] = [[]]
+        var count = 0
+        
+        for item in array1D {
+            if item == "\n" {
+                count += 1
+                array2D.append([])
+            }
+            else {
+                array2D[count].append(item)
+            }
+        }
+        return array2D
+    }
+    
+    func backPlane ( width : Int) -> String {
+        var str : String = ""
+        for _ in 1...width {
+            for _ in 1...width{
+                str += " "
+            }
+                str += "\n"
+        }
+        return str
+    }
+}
+
+struct CelestialBody {
+    var size : Int
+    var shape : [[String]]
+    init(diameter: Int){
+        size = diameter
+        shape = [[]]
+    }
 }
 
 
-let test = Circle()
-test.run()
+let test = SolarSystem()
+//test.step1Run()
+var sun = CelestialBody(diameter: 5)
+sun.shape = test.generate2DArray(str: test.drawCircle(num: sun.size))
+print(sun.shape)
 
