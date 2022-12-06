@@ -2,17 +2,21 @@ import Foundation
 
 class Circle {
     
+    func run() {
+        let number = inputCircleSize()
+        print(drawCircle(num:number))
+    }
+    
     func inputCircleSize() -> Int{
+        print("원의 크기를 입력하세요.")
         guard let number = Int(readLine()!) else { return self.inputCircleSize() }
         return number
     }
     
-    func drawCircle(_ size : Int) -> String{
-        let size = inputCircleSize()
+    func drawCircle( num : Int) -> String{
+        let size = num
         var str : String = ""
 
-        
-        
         for i in 0 ..< size / 2 {
             for j in 0 ..< size/2 - i  {
                 if size % 2 == 0 && j == 0{
@@ -94,10 +98,15 @@ class Circle {
                 }
                 str += " "
             }
-            str += "\n"
+            if i != 0 {
+                str += "\n"
+            }
         }
-        return str
-        }
+    return str
     }
+}
 
+
+let test = Circle()
+test.run()
 
