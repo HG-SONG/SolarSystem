@@ -169,7 +169,20 @@ test.run()
 - Stringstream형태의 데이터들을 모조리 2차원배열화 하여 태양,지구,달에 대한 shape프로퍼티에 저장한다. 
 - bakcplane()을 통해 " " 로 채워진 2차원 배열 backPlane을 생성한다. ( [지구<->달] 의 경우 20*20 , [태양 <-> 지구+달 ] 의 경우 76*76 ) 
 - generateEarthPlane()에 20*20의 backPlane , 지구.shape , 달.shape , 달의 공전에 따른 위치좌표 를 넘겨주어 [지구<->달] 의 plane을 생성한다. 
+
+<img width="169" alt="지구와 달 plane" src="https://user-images.githubusercontent.com/88966578/206159394-8df3d9b9-9a91-4bce-a4c8-0e6ef69561ec.png">
+
 - generateSunPlane() 에 76*76의 backPlane , 태양.shape , [지구<->달] 의 plane , 지구의 공전에 따른 위치좌표 를 넘겨주어 [태양 <-> 지구+달 ] 의 plane을 생성한다. 
-<img width="690" alt="태양 plane" src="https://user-images.githubusercontent.com/88966578/206159474-d39dbea8-825e-4db0-8560-aabd62cd4d27.png"> + <img width="169" alt="지구와 달 plane" src="https://user-images.githubusercontent.com/88966578/206159394-8df3d9b9-9a91-4bce-a4c8-0e6ef69561ec.png">
+
+<img width="690" alt="태양 plane" src="https://user-images.githubusercontent.com/88966578/206159474-d39dbea8-825e-4db0-8560-aabd62cd4d27.png"> 
+
+**( 여기에 [지구<->달] plane을 집어 넣는과정. )**
+--------------------------------------
+
+* 결과화면 : 1월 1일 / 5월 23일 / 9월 11일
+
+<img width="300" alt="1월 1일" src="https://user-images.githubusercontent.com/88966578/206160454-271c6c1c-5e21-4457-892a-e3826a164e82.png"><img width="300" alt="5월 23일" src="https://user-images.githubusercontent.com/88966578/206160476-ed987bec-a231-424e-a99a-2ad70d262534.png"><img width="300" alt="9월 11일" src="https://user-images.githubusercontent.com/88966578/206160491-a92ad982-312d-4a34-8547-e8e0d0a48deb.png">
+
+
 
 ## 3단계 
