@@ -454,5 +454,6 @@ test.step2Run()
 - 마찬가지로 Readme.md 파일과 작성한 소스 코드를 모두 기존 secret gist에 올려야 한다. (V)
 - 전역변수의 사용을 자제한다. (V)
 - 객체 또는 배열을 적절히 활용한다 (V)
+- https://gist.github.com/HG-SONG/0c4a7d7985ae52748618e38d4b6e286b (revision : 12번)
 
 ## 3단계 
