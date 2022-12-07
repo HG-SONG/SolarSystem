@@ -151,6 +151,25 @@ let test = Circle()
 test.run()
 
 ```
+
+* 요구사항 체크리스트 
+- 컴파일 또는 실행이 가능해야 한다. (V) 
+- 자기만의 기준으로 최대한 간결하게 코드를 작성한다. (V) **"나의 기준은 상당히 관대하다."**
+- Readme.md에 풀이 과정 및 코드 설명, 실행 결과를 기술하고 코드와 같이 gist에 포함해야 한다 (V) 
+- 제출시 gist URL과 revision 번호를 함께 제출한다 (V) **"다만... Gist Push가 안됨... Github repo로 확인해주었으면 합니다." **
+- https://gist.github.com/HG-SONG/0c4a7d7985ae52748618e38d4b6e286b (revision : 11번)
+
 ## 2단계 
+- inputMD()를 통해 x월 y일을 입력받는다.
+- stringToIntMD()를 통해 입력받은 x , y 를 분리하여 Int로 타입변환 후 arrayMD[0],arrayMD[1]에 각각 저장.
+- angleByDate() , angleByMonth() 에 넘겨주면, 월 / 일에 따른 공전하는 천체의 위치를 좌표화하여 리턴한다. 
+- CelestialBody 내부 구조체를 생성하여 태양,지구,달에대한 size 정보와 각각의 천체를 표현하는 2차원 배열을 저장할 shape 프로퍼티를만들어준다. 
+- "멋진" 표현을 위해 태양,지구,달의 size는 6,4,2 로 고정. drawCircle()로 Stringstream을 만들어준다. 
+- generate2DArray()는 Stringstream을 2차원배열로 좌표평면화 하는 기능을 한다. "\n"을 기준으로 한줄씩 배열에 추가하여 최종적으로 만들어진 2차원배열을 리턴한다. 
+- Stringstream형태의 데이터들을 모조리 2차원배열화 하여 태양,지구,달에 대한 shape프로퍼티에 저장한다. 
+- bakcplane()을 통해 " " 로 채워진 2차원 배열 backPlane을 생성한다. ( [지구<->달] 의 경우 20*20 , [태양 <-> 지구+달 ] 의 경우 76*76 ) 
+- generateEarthPlane()에 20*20의 backPlane , 지구.shape , 달.shape , 달의 공전에 따른 위치좌표 를 넘겨주어 [지구<->달] 의 plane을 생성한다. 
+- generateSunPlane() 에 76*76의 backPlane , 태양.shape , [지구<->달] 의 plane , 지구의 공전에 따른 위치좌표 를 넘겨주어 [태양 <-> 지구+달 ] 의 plane을 생성한다. 
+<img width="690" alt="태양 plane" src="https://user-images.githubusercontent.com/88966578/206159474-d39dbea8-825e-4db0-8560-aabd62cd4d27.png"> + <img width="169" alt="지구와 달 plane" src="https://user-images.githubusercontent.com/88966578/206159394-8df3d9b9-9a91-4bce-a4c8-0e6ef69561ec.png">
 
 ## 3단계 
