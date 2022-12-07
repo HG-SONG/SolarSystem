@@ -153,6 +153,8 @@ test.run()
 ```
 
 * 요구사항 체크리스트 
+- 입력: 1 이상 80 이하의 정수를 콘솔을 통해 입력받는다. (V)
+- 출력: 터미널 화면에 해당 크기의 원을 "멋지게" 출력한다. (V) "상당히 멋진 것 같다."
 - 컴파일 또는 실행이 가능해야 한다. (V) 
 - 자기만의 기준으로 최대한 간결하게 코드를 작성한다. (V) **"나의 기준은 상당히 관대하다."**
 - Readme.md에 풀이 과정 및 코드 설명, 실행 결과를 기술하고 코드와 같이 gist에 포함해야 한다 (V) 
@@ -176,13 +178,281 @@ test.run()
 
 <img width="690" alt="태양 plane" src="https://user-images.githubusercontent.com/88966578/206159474-d39dbea8-825e-4db0-8560-aabd62cd4d27.png"> 
 
-**( 여기에 [지구<->달] plane을 집어 넣는과정. )**
+**( 여기에 [지구<->달] plane을 집어 넣으면 된다. )**
 --------------------------------------
 
 * 결과화면 : 1월 1일 / 5월 23일 / 9월 11일
 
-<img width="300" alt="1월 1일" src="https://user-images.githubusercontent.com/88966578/206160454-271c6c1c-5e21-4457-892a-e3826a164e82.png"><img width="300" alt="5월 23일" src="https://user-images.githubusercontent.com/88966578/206160476-ed987bec-a231-424e-a99a-2ad70d262534.png"><img width="300" alt="9월 11일" src="https://user-images.githubusercontent.com/88966578/206160491-a92ad982-312d-4a34-8547-e8e0d0a48deb.png">
+<img width="300" alt="1월 1일" src="https://user-images.githubusercontent.com/88966578/206160454-271c6c1c-5e21-4457-892a-e3826a164e82.png"> <img width="300" alt="5월 23일" src="https://user-images.githubusercontent.com/88966578/206160476-ed987bec-a231-424e-a99a-2ad70d262534.png"> <img width="300" alt="9월 11일" src="https://user-images.githubusercontent.com/88966578/206160491-a92ad982-312d-4a34-8547-e8e0d0a48deb.png">
+
+( 위치좌표가 좀 이상해서 이후에 수정하였다.)
+* 코드 
+
+```swift
+import Foundation
+
+struct SolarSystem {
+    
+    struct CelestialBody {
+        var size : Int
+        var shape : [[String]]
+        init(diameter: Int){
+            size = diameter
+            shape = [[]]
+        }
+    }
+    
+    func step1Run() {
+        let number = inputCircleSize()
+        print(drawCircle(num:number))
+    }
+    
+    func step2Run() {
+        var S = CelestialBody(diameter: 6)
+        var E = CelestialBody(diameter: 4)
+        var M = CelestialBody(diameter: 2)
+        let backPlaneEarth = generate2DArray(str: backPlane(width: 20))
+        let backPlaneSolarSystem = generate2DArray(str: backPlane(width: 76))
+        S.shape = generate2DArray(str: drawCircle(num: S.size))
+        E.shape = generate2DArray(str: drawCircle(num: E.size))
+        M.shape = generate2DArray(str: drawCircle(num: M.size))
+        
+        let arrayMD = stringToIntMD(data: inputMD())
+        let moonAngle = angleByDate(date: arrayMD[1])
+        let earthAngle = angleByMonth(month: arrayMD[0])
+        let earthPlane = generateEarthPlane(back: backPlaneEarth, earth: E.shape, moon: M.shape, angle: moonAngle)
+        let sunPlane = generateSunPlane(back: backPlaneSolarSystem, sun: S.shape, EPlane: earthPlane, angle: earthAngle)
+        
+        printPlane(plane: sunPlane, width: 76)
+        
+    }
+    
+    func inputCircleSize() -> Int{
+        print("원의 크기를 입력하세요.")
+        guard let number = Int(readLine()!) else { return self.inputCircleSize() }
+        return number
+    }
+    
+    func drawCircle( num : Int) -> String {
+        let size = num
+        var str : String = ""
+        
+        for i in 0 ..< size / 2 {
+            for j in 0 ..< size/2 - i  {
+                if size % 2 == 0 && j == 0{
+                    continue
+                }
+                str += " "
+            }
+            if size % 2 == 0 {
+                for j in 1 ... 2*(i+1)   {
+                    if j == 1 || j == 2*(i+1) {
+                        str += "@"
+                    }
+                    else {
+                        str += " "
+                    }
+                }
+            }
+            if size % 2 != 0 {
+                for j in 1 ... size % 2 + 2*i   {
+                    if j == 1 || j == size % 2 + 2*i {
+                        str += "@"
+                    }
+                    else {
+                        str += " "
+                    }
+                }
+            }
+            for j in 0 ..< size/2 - i  {
+                if size % 2 == 0 && j == 0{
+                    continue
+                }
+                str += " "
+            }
+            str += "\n"
+        }
+
+        if size % 2 != 0 {
+            for i in 1...size {
+                if i == 1 || i == size {
+                    str += "@"
+                }
+                else {
+                    str += " "
+                }
+            }
+            str += "\n"
+        }
+
+        for i in (0 ..< size / 2).reversed() {
+            for j in 0 ..< size/2 - i  {
+                if size % 2 == 0 && j == 0{
+                    continue
+                }
+                str += " "
+            }
+            if size % 2 == 0 {
+                for j in 1 ... 2*(i+1)   {
+                    if j == 1 || j == 2*(i+1) {
+                        str += "@"
+                    }
+                    else {
+                        str += " "
+                    }
+                }
+            }
+            if size % 2 != 0 {
+                for j in 1 ... size % 2 + 2*i   {
+                    if j == 1 || j == size % 2 + 2*i {
+                        str += "@"
+                    }
+                    else {
+                        str += " "
+                    }
+                }
+            }
+            for j in 0 ..< size/2 - i  {
+                if size % 2 == 0 && j == 0{
+                    continue
+                }
+                str += " "
+            }
+            if i != 0 {
+                str += "\n"
+            }
+        }
+    return str
+    }
+    
+    func generate2DArray (str : String) -> [[String]] {
+        let array1D : [String] = str.map{String($0)}
+        var array2D : [[String]] = [[]]
+        var count = 0
+        
+        for item in array1D {
+            if item == "\n" {
+                count += 1
+                array2D.append([])
+            }
+            else {
+                array2D[count].append(item)
+            }
+        }
+        return array2D
+    }
+    
+    func inputMD() -> String {
+        print("날짜를 입력하세요. 예 : 1월 1일 ")
+        guard let MD = readLine() else { return self.inputMD() }
+        return MD
+    }
+    
+    func stringToIntMD( data : String ) -> [Int] {
+        var arr1 : [String] = data.components(separatedBy: " ")
+        let arr2 : [String] = arr1[0].components(separatedBy: "ㅇㅜㅓㄹ")
+        arr1 = arr1[1].components(separatedBy: "ㅇㅣㄹ")
+        var resultArray : [Int] = []
+        resultArray.append(Int(arr2[0])!)
+        resultArray.append(Int(arr1[0])!)
+        return resultArray
+    }
+    
+    func angleByDate ( date : Int) -> [Int] {
+        switch date {
+        case 1,2,3 : return [9,13] ; case 4,5 : return [11,12] ; case 6,7,8 : return [13,10]
+        case 9,10,11 : return [15,9] ; case 12,13 : return [13,7]
+        case 14,15,16 : return [11,5] ; case 17,18 : return [9,3]
+        case 19,20,21 : return [7,5] ; case 22,23 : return [5,7]
+        case 24,25,26 : return [3,9] ; case 27,28 : return [5,10]
+        case 29,30,31 : return [7,12]
+        default:
+            break
+        }
+        return [0,0]
+    }
+    
+    func angleByMonth ( month : Int) -> [Int] {
+        switch month {
+        case 1 : return [35,56] ; case 2 : return [41,49] ; case 3 : return [49,41]
+        case 4 : return [56,35] ; case 5 : return [49,23] ; case 6 : return [41,12]
+        case 7 : return [35,0] ; case 8 : return [23,12] ; case 9 : return [12,23]
+        case 10 : return [0,35] ; case 11 : return [12,42] ; case 12 : return [12,42]
+        default:
+            break
+        }
+        return [0,0]
+    }
+    
+    func backPlane ( width : Int) -> String {
+        var str : String = ""
+        for _ in 1...width {
+            for _ in 1...width{
+                str += " "
+            }
+                str += "\n"
+        }
+        return str
+    }
+    
+    
+    func generateEarthPlane (back : [[String]], earth : [[String]], moon : [[String]], angle : [Int]) -> [[String]] {
+        var earthPlane : [[String]] = back
+        
+        for i in 0...3 {
+            for j in 0...3{
+                earthPlane[8+i][8+j] = earth[i][j]
+            }
+        }
+        for i in 0...1 {
+            for j in 0...1{
+                earthPlane[angle[0]+i][angle[1]+j] = moon[i][j]
+            }
+        }
+        return earthPlane
+    }
+    
+    func generateSunPlane (back : [[String]], sun : [[String]], EPlane: [[String]], angle : [Int]) -> [[String]] {
+        var sunPlane : [[String]] = back
+        
+        for i in 0...5 {
+            for j in 0...5{
+                sunPlane[35+i][35+j] = sun[i][j]
+            }
+        }
+        for i in 0...19 {
+            for j in 0...19{
+                sunPlane[angle[0]+i][angle[1]+j] = EPlane[i][j]
+            }
+        }
+        return sunPlane
+    }
+    
+    func printPlane (plane : [[String]] , width : Int) {
+        for i in 0 ..< width{
+            for j in 0 ..< width {
+                print(plane[i][j],terminator: "")
+            }
+            print("")
+        }
+    }
+}
 
 
+let test = SolarSystem()
+//test.step1Run()
+test.step2Run()
+
+```
+
+* 요구사항 체크리스트 
+- 프로그램을 실행하면 1월 1일부터 12월 31일까지 날짜를 입력받는다. (V) "32일도 입력가능하지만...요구사항은 맞췄다..."
+- 해당 날짜에 태양 지구 달의 상대적인 위치를 콘솔에 "멋지게" 출력한다. (V)
+- 단 1월 1일에 태양 - 지구 - 달은 순서대로 일직선상에 위치한다고 가정한다. (V)
+- 문제의 단순화를 위해 태양 지구 달은 같은 평면상에서 공전하며, 공전궤도는 완전한 원이라고 가정한다. (V)
+- 너무 크지 않은 함수 단위로 구현하고 중복된 코드를 줄이도록 노력한다. (V?)
+- 마찬가지로 Readme.md 파일과 작성한 소스 코드를 모두 기존 secret gist에 올려야 한다. (V)
+- 전역변수의 사용을 자제한다. (V)
+- 객체 또는 배열을 적절히 활용한다 (V)
 
 ## 3단계 
